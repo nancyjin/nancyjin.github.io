@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHE · Constraint+ — Sunlei Jin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+
+    /* ── Breadcrumb ─────────────────────────────────── */
+    .breadcrumb {
+      position: fixed; top: 58px; left: 0; right: 0; z-index: 90;
+      display: flex; align-items: center; gap: .5rem;
+      padding: .45rem clamp(1.5rem,8vw,7rem);
+      background: rgba(8,2,4,.82); backdrop-filter: blur(16px);
+      border-bottom: .5px solid rgba(255,255,255,.05);
+      font-size: .6rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.28);
+    }
+    .breadcrumb a { color: rgba(255,255,255,.28); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: rgba(210,80,60,.9); }
+    .breadcrumb-sep { opacity: .35; }
+
+    /* ── Hero ───────────────────────────────────────── */
+    .case-hero {
+      position: relative; width: 100%; height: 92vh; min-height: 520px;
+      margin-top: calc(58px + 30px);
+      overflow: hidden;
+    }
+    .case-hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 45%;
+    }
+    .case-hero-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        170deg,
+        rgba(6,2,3,.6) 0%,
+        rgba(6,2,3,.15) 38%,
+        rgba(6,2,3,.82) 100%
+      );
+    }
+    .case-hero-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0 clamp(1.5rem,8vw,7rem) clamp(2.5rem,5vh,4rem);
+    }
+    .case-badges {
+      display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem;
+    }
+    .case-badge {
+      font-size: .58rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.78);
+      border: .5px solid rgba(255,255,255,.28);
+      background: rgba(255,255,255,.07); backdrop-filter: blur(8px);
+      padding: .3rem .85rem; border-radius: 100px;
+    }
+    .case-badge.red {
+      border-color: rgba(192,48,38,.55);
+      background: rgba(192,48,38,.14);
+      color: rgba(255,170,150,.88);
+    }
+    .case-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem,10vw,9rem); font-weight: 300; line-height: .95;
+      color: #fff; margin-bottom: 1.2rem; letter-spacing: .04em;
+    }
+    .case-desc {
+      max-width: 560px; font-size: clamp(.82rem,1.2vw,.95rem);
+      line-height: 1.78; color: rgba(255,255,255,.6);
+    }
+
+    /* ── Components ─────────────────────────────────── */
+    .comp-section {
+      padding: clamp(2.5rem,5vh,4rem) clamp(1.5rem,8vw,7rem);
+      border-bottom: .5px solid var(--border);
+    }
+    .comp-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+      border: .5px solid var(--border); border-radius: 14px; overflow: hidden;
+      margin-top: 1.6rem;
+    }
+    .comp-card {
+      padding: 2.2rem 1.8rem 2.2rem;
+      background: rgba(255,255,255,.18); backdrop-filter: blur(10px);
+      border-right: .5px solid var(--border);
+    }
+    .comp-card:last-child { border-right: none; }
+    .comp-icon {
+      font-size: 1.5rem; margin-bottom: 1.1rem; display: block;
+      color: rgba(192,48,38,.75);
+    }
+    .comp-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 400; color: var(--text-1);
+      margin-bottom: .65rem;
+    }
+    .comp-desc { font-size: .79rem; line-height: 1.7; color: var(--text-2); }
+
+    /* ── Concept 2x2 ────────────────────────────────── */
+    .concept-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.8rem;
+    }
+    .concept-card {
+      padding: 2rem 1.8rem 2.2rem; border-radius: 12px;
+      border: .5px solid var(--border);
+      background: rgba(255,255,255,.18); backdrop-filter: blur(10px);
+    }
+    .concept-num {
+      font-size: .55rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(192,48,38,.85); margin-bottom: .95rem; display: block;
+    }
+    .concept-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 400; color: var(--text-1); margin-bottom: .65rem;
+    }
+    .concept-body { font-size: .8rem; line-height: 1.76; color: var(--text-2); }
+
+    /* ── Dark wrapper ───────────────────────────────── */
+    .art-wrapper { background: #080204; }
+    .art-section { padding-bottom: clamp(3rem,6vh,5rem); }
+
+    .art-label {
+      display: flex; align-items: center; gap: .75rem;
+      padding: clamp(2rem,4vh,3rem) clamp(1.5rem,8vw,7rem) clamp(1.5rem,3vh,2.5rem);
+      font-size: .58rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.22);
+      border-top: .5px solid rgba(255,255,255,.06);
+    }
+    .art-label::before {
+      content: ''; display: block;
+      width: 22px; height: .5px; background: rgba(192,48,38,.5); flex-shrink: 0;
+    }
+
+    /* ── Animation preview ──────────────────────────── */
+    .anim-wrap {
+      position: relative; margin: 0 clamp(1.5rem,8vw,7rem);
+      border-radius: 8px; overflow: hidden;
+      background: #000; aspect-ratio: 16/9; max-height: 70vh;
+    }
+    .anim-video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .anim-credit {
+      padding: .85rem clamp(1.5rem,8vw,7rem) 0;
+      font-size: .58rem; letter-spacing: .1em; color: rgba(255,255,255,.18);
+      text-transform: uppercase;
+    }
+
+    /* ── Photo grid — 4 images ──────────────────────── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.3fr;
+      grid-template-rows: 42vw 27vw;
+      gap: 3px;
+      padding: 0 clamp(1.5rem,8vw,7rem);
+    }
+    .ph-item { overflow: hidden; border-radius: 2px; }
+    .ph-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 700ms cubic-bezier(.76,0,.24,1);
+    }
+    .ph-item:hover img { transform: scale(1.035); }
+
+    .photo-grid > .ph-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+    .photo-grid > .ph-item:nth-child(2) { grid-column: 3;     grid-row: 1 / 3; }
+    .photo-grid > .ph-item:nth-child(3) { grid-column: 1;     grid-row: 2; }
+    .photo-grid > .ph-item:nth-child(4) { grid-column: 2;     grid-row: 2; }
+
+    /* ── Promo material ─────────────────────────────── */
+    .promo-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      padding: 0 clamp(1.5rem,8vw,7rem);
+      align-items: start;
+    }
+    .promo-card {
+      border-radius: 8px; overflow: hidden;
+      background: #000;
+    }
+    .promo-card img {
+      width: 100%; display: block;
+      transition: transform 600ms cubic-bezier(.76,0,.24,1);
+    }
+    .promo-card:hover img { transform: scale(1.025); }
+    .promo-info { padding: .9rem 0 0; }
+    .promo-type {
+      font-size: .6rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.32);
+    }
+    .promo-note { font-size: .58rem; color: rgba(255,255,255,.16); margin-top: .25rem; }
+
+    /* ── Tech stack ─────────────────────────────────── */
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: .85rem;
+      padding: 0 clamp(1.5rem,8vw,7rem);
+    }
+    .tech-card {
+      padding: 1.5rem 1.5rem 1.7rem; border-radius: 10px;
+      border: .5px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.03);
+    }
+    .tech-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 400;
+      color: rgba(255,255,255,.7); margin-bottom: .55rem;
+    }
+    .tech-desc { font-size: .76rem; line-height: 1.66; color: rgba(255,255,255,.28); }
+
+    /* ── Artist statement ───────────────────────────── */
+    .statement-section {
+      padding: clamp(3rem,6vh,5rem) clamp(1.5rem,8vw,7rem) clamp(3.5rem,7vh,6rem);
+      border-top: .5px solid rgba(255,255,255,.05);
+    }
+    .statement-quote {
+      max-width: 760px;
+      padding-left: 2rem;
+      border-left: 2px solid rgba(192,48,38,.55);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.15rem,2.2vw,1.58rem); font-weight: 300; font-style: italic;
+      line-height: 1.7; color: rgba(255,255,255,.7);
+      margin: 0;
+    }
+    .statement-attr {
+      margin-top: 1.5rem; padding-left: 2rem;
+      font-size: .6rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase;
+      color: rgba(255,255,255,.18);
+    }
+
+    /* ── Next project ───────────────────────────────── */
+    .next-project {
+      background: #080204;
+      border-top: .5px solid rgba(255,255,255,.06);
+      padding: 1.8rem clamp(1.5rem,8vw,7rem);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .next-label {
+      font-size: .58rem; font-weight: 600; letter-spacing: .16em;
+      text-transform: uppercase; color: rgba(255,255,255,.22);
+    }
+    .next-btn {
+      display: flex; align-items: center; gap: .7rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 300; color: rgba(255,255,255,.62);
+      text-decoration: none; transition: all .3s;
+    }
+    .next-btn:hover { color: #fff; gap: 1.1rem; }
+    .next-arr { font-size: 1rem; color: rgba(255,255,255,.28); transition: color .3s; }
+    .next-btn:hover .next-arr { color: rgba(255,255,255,.62); }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .comp-grid { grid-template-columns: 1fr; }
+      .comp-card { border-right: none; border-bottom: .5px solid var(--border); }
+      .comp-card:last-child { border-bottom: none; }
+      .concept-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .photo-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .photo-grid > .ph-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1; aspect-ratio: 2/1; }
+      .photo-grid > .ph-item:nth-child(2) { grid-column: 1 / 3; grid-row: 2; aspect-ratio: 1/1; }
+      .photo-grid > .ph-item:nth-child(3) { grid-column: 1; grid-row: 3; aspect-ratio: 3/4; }
+      .photo-grid > .ph-item:nth-child(4) { grid-column: 2; grid-row: 3; aspect-ratio: 3/4; }
+      .promo-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="strip-white" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m1" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 0 3"/>
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m2" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 4 4 0 -0.3"/>
+      <feComposite in="SourceGraphic" in2="m1" operator="in" result="s1"/>
+      <feComposite in="s1" in2="m2" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="aurora">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">SJ</a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="marketing.html">Marketing</a></li>
+    <li><a href="photography.html">Photography</a></li>
+    <li><a href="art.html" class="active">Art & Project</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-ham" id="ham" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="art.html">Art & Project</a>
+  <span class="breadcrumb-sep">/</span>
+  <span>SHE</span>
+</div>
+
+<!-- ① HERO ────────────────────────────────────────────── -->
+<section class="case-hero">
+  <img class="case-hero-bg" src="assets/art/constraint/IMG_2983.JPG" alt="SHE — Constraint+ Installation at Isabel Bader Centre">
+  <div class="case-hero-ov"></div>
+  <div class="case-hero-content">
+    <div class="case-badges">
+      <span class="case-badge">Installation Art</span>
+      <span class="case-badge">3D Animation · Sound · Interactive</span>
+      <span class="case-badge red">Isabel Bader Centre · 2023</span>
+    </div>
+    <h1 class="case-title">Constraint</h1>
+    <p class="case-desc">An immersive installation exploring cyberbullying and the female experience — where physical space amplifies digital emotion, and the audience becomes both witness and aggressor.</p>
+  </div>
+</section>
+
+<!-- ② COMPONENTS ──────────────────────────────────────── -->
+<section class="comp-section fi">
+  <span class="eyebrow">Components</span>
+  <div class="comp-grid">
+    <div class="comp-card">
+      <span class="comp-icon">◎</span>
+      <h3 class="comp-name">3D Loop Animation</h3>
+      <p class="comp-desc">A surrealist 3D character rendered in continuous loop, projected large-scale onto the far gallery wall — the emotional centrepiece of the space, cycling between states of fragility and dissolution.</p>
+    </div>
+    <div class="comp-card">
+      <span class="comp-icon">〜</span>
+      <h3 class="comp-name">Sound Visualization</h3>
+      <p class="comp-desc">A wearable Arduino device suspended from the rope ceiling generates real-time sound data that responds to visitor proximity — the closer viewers approach, the more the system activates.</p>
+    </div>
+    <div class="comp-card">
+      <span class="comp-icon">∿</span>
+      <h3 class="comp-name">Rope Installation</h3>
+      <p class="comp-desc">Over 30 metres of red rope criss-cross the gallery ceiling, casting dramatic entangled shadow projections across the walls — physically ensnaring visitors within the logic of the work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ③ CONCEPT ──────────────────────────────────────────── -->
+<section class="section fi" style="transition-delay:.06s">
+  <span class="eyebrow">Concept</span>
+  <h2 class="sec-title">The four pillars behind <em>SHE</em></h2>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <span class="concept-num">01 — Hypothesis</span>
+      <h4 class="concept-head">Physical space amplifies digital emotion</h4>
+      <p class="concept-body">The installation posits that the psychological weight of online harassment can only be truly felt when re-embodied in physical space. Scale, darkness, and enclosure transform abstract data into visceral sensation — what the screen renders weightless, the room makes heavy.</p>
+    </div>
+    <div class="concept-card">
+      <span class="concept-num">02 — Theme</span>
+      <h4 class="concept-head">Cyberbullying and the female experience</h4>
+      <p class="concept-body">Drawing on documented patterns of gendered digital violence, the work centres experiences that are frequently dismissed or made invisible online — giving them a room, a body, and a shadow that cannot be scrolled past or ignored.</p>
+    </div>
+    <div class="concept-card">
+      <span class="concept-num">03 — Interaction</span>
+      <h4 class="concept-head">Audience as both witness and aggressor</h4>
+      <p class="concept-body">The Arduino sensor responds to visitor proximity. As viewers approach, the sound intensifies. This implicates the audience in the dynamics the work depicts — collapsing the comfortable distance between observer and participant, bystander and perpetrator.</p>
+    </div>
+    <div class="concept-card">
+      <span class="concept-num">04 — Atmosphere</span>
+      <h4 class="concept-head">Vibe over opinion</h4>
+      <p class="concept-body">The work does not argue. It creates a field — darkness, red, entanglement — and allows the viewer's body to respond before the mind interprets. Sensation precedes meaning. The exhibition asks visitors to feel first and understand after.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────── DARK WRAPPER ──────────────────────── -->
+<div class="art-wrapper">
+
+  <!-- 3D Animation reel -->
+  <div class="art-section">
+    <div class="art-label">3D Loop Animation · Projected Installation</div>
+    <div class="anim-wrap">
+      <video class="anim-video" autoplay muted loop playsinline>
+        <source src="assets/art/constraint/sd1680616777_2.mp4" type="video/mp4">
+        <source src="assets/art/constraint/sd1680616777_2.mov" type="video/quicktime">
+      </video>
+    </div>
+    <p class="anim-credit">3D Animation · TouchDesigner · Isabel Bader Centre 2023</p>
+  </div>
+
+  <!-- Exhibition Documentation -->
+  <div class="art-section">
+    <div class="art-label">Exhibition Documentation · Isabel Bader Centre 2023</div>
+    <div class="photo-grid">
+      <div class="ph-item">
+        <img src="assets/art/constraint/IMG_2983.JPG" alt="SHE — full installation view, red ropes and doll projection">
+      </div>
+      <div class="ph-item">
+        <img src="assets/art/constraint/IMG_3198.JPG" alt="Arduino sound visualization device suspended from ceiling">
+      </div>
+      <div class="ph-item">
+        <img src="assets/art/constraint/IMG_2978.JPG" alt="Exhibition entry angle with rope shadows">
+      </div>
+      <div class="ph-item">
+        <img src="assets/art/constraint/IMG_3199.JPG" alt="Rope shadow silhouettes on blue-lit gallery wall">
+      </div>
+    </div>
+  </div>
+
+  <!-- Promotional Material -->
+  <div class="art-section">
+    <div class="art-label">Promotional Material</div>
+    <div class="promo-grid">
+      <div>
+        <div class="promo-card">
+          <img src="assets/art/constraint/ins%20post%20copy.png" alt="CONSTRAINT+ Exhibition Poster">
+        </div>
+        <div class="promo-info">
+          <p class="promo-type">Exhibition Poster</p>
+          <p class="promo-note">CONSTRAINT+ · Art & Media Lab · Isabel Bader Centre · April 2023</p>
+        </div>
+      </div>
+      <div>
+        <div class="promo-card" style="aspect-ratio:1/1; overflow:hidden;">
+          <img src="assets/art/constraint/IMG_3199.JPG" alt="Rope shadow projection — exhibition photography" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div class="promo-info">
+          <p class="promo-type">Instagram Campaign</p>
+          <p class="promo-note">Exhibition photography · Social media campaign · April 2023</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical Stack -->
+  <div class="art-section">
+    <div class="art-label">Technical Stack</div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <h4 class="tech-name">TouchDesigner</h4>
+        <p class="tech-desc">Real-time generative visuals and projection mapping, driving the looping 3D animation across the gallery wall at full scale and resolution.</p>
+      </div>
+      <div class="tech-card">
+        <h4 class="tech-name">Arduino</h4>
+        <p class="tech-desc">Proximity-sensing circuit embedded in the hanging pendant — audience presence triggers sound visualization changes in real time, implicating viewers in the piece.</p>
+      </div>
+      <div class="tech-card">
+        <h4 class="tech-name">3D Animation</h4>
+        <p class="tech-desc">Character modelling, rigging, and loop animation built in Cinema 4D, composited with a surrealist visual language and rendered for large-format projection.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Artist Statement -->
+  <div class="statement-section">
+    <blockquote class="statement-quote">
+      "The piece does not explain cyberbullying — it recreates the feeling of being ensnared. The ropes are data. The shadows are what gets left on your body. The audience, by entering, becomes complicit."
+    </blockquote>
+    <p class="statement-attr">— Artist's Proposal · CONSTRAINT+ · Isabel Bader Centre · 2023</p>
+  </div>
+
+  <!-- Next Project -->
+  <div class="next-project">
+    <span class="next-label">Next Project</span>
+    <a href="art.html" class="next-btn">
+      <span>Back to Art & Project</span>
+      <span class="next-arr">→</span>
+    </a>
+  </div>
+
+</div><!-- /.art-wrapper -->
+
+<footer>
+  <span>© 2025 Sunlei Jin</span>
+  <span>Digital Artist · Photographer · Creative Strategist</span>
+</footer>
+
+<a href="art.html" class="back-btn" aria-label="Back to Art">
+  <span class="back-arr">←</span>
+  <span>Art</span>
+</a>
+
+<script>
+  window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (!href.startsWith('#') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('http')) {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => location.href = href, 340);
+      });
+    }
+  });
+
+  document.getElementById('ham').addEventListener('click', () => {
+    document.getElementById('navlinks').classList.toggle('open');
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

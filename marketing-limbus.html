@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UnMute · Limbus Work — Sunlei Jin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+
+    /* ── Breadcrumb ─────────────────────────────────── */
+    .breadcrumb {
+      position: fixed; top: 58px; left: 0; right: 0; z-index: 90;
+      display: flex; align-items: center; gap: .5rem;
+      padding: .45rem clamp(1.5rem,8vw,7rem);
+      background: rgba(236,234,243,.72); backdrop-filter: blur(14px);
+      border-bottom: .5px solid var(--border);
+      font-size: .6rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text-3);
+    }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--purple); }
+    .breadcrumb-sep { opacity: .4; }
+
+    /* ── Hero ───────────────────────────────────────── */
+    .case-hero {
+      position: relative; width: 100%; height: 92vh; min-height: 500px;
+      margin-top: calc(58px + 30px); /* nav + breadcrumb */
+      overflow: hidden;
+    }
+    .case-hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+    }
+    .case-hero-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(10,5,25,.45) 0%,
+        rgba(10,5,25,.2) 40%,
+        rgba(10,5,25,.75) 100%
+      );
+    }
+    .case-hero-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0 clamp(1.5rem,8vw,7rem) clamp(2.5rem,5vh,4rem);
+    }
+    .case-badges {
+      display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem;
+    }
+    .case-badge {
+      font-size: .58rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      border: .5px solid rgba(255,255,255,.3);
+      background: rgba(255,255,255,.1); backdrop-filter: blur(8px);
+      padding: .3rem .8rem; border-radius: 100px;
+    }
+    .case-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem,7vw,6rem); font-weight: 300; line-height: 1;
+      color: #fff; margin-bottom: 1.1rem; letter-spacing: -.01em;
+    }
+    .case-desc {
+      max-width: 600px; font-size: clamp(.82rem,1.2vw,.95rem);
+      line-height: 1.75; color: rgba(255,255,255,.72);
+    }
+
+    /* ── Metrics ────────────────────────────────────── */
+    .metrics-section {
+      padding: clamp(2.5rem,5vh,4rem) clamp(1.5rem,8vw,7rem);
+      border-bottom: .5px solid var(--border);
+    }
+    .metrics-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+      border: .5px solid var(--border); border-radius: 14px; overflow: hidden;
+    }
+    .metric-card {
+      padding: 2rem 1.6rem 1.8rem;
+      background: rgba(255,255,255,.18); backdrop-filter: blur(10px);
+      border-right: .5px solid var(--border);
+    }
+    .metric-card:last-child { border-right: none; }
+    .metric-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem,4vw,3.2rem); font-weight: 300; line-height: 1;
+      background: linear-gradient(135deg,#4c1d95,#7c3aed,#a855f7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: .6rem;
+    }
+    .metric-lbl {
+      font-size: .7rem; color: var(--text-2); line-height: 1.45;
+    }
+
+    /* ── Story ──────────────────────────────────────── */
+    .story-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1.8rem;
+    }
+    .story-card {
+      padding: 1.6rem 1.5rem 1.8rem; border-radius: 12px;
+      border: .5px solid var(--border);
+      background: rgba(255,255,255,.18); backdrop-filter: blur(10px);
+    }
+    .story-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 400; color: var(--text-1);
+      margin-bottom: .8rem;
+    }
+    .story-text { font-size: .82rem; line-height: 1.75; color: var(--text-2); }
+
+    /* ── Role ───────────────────────────────────────── */
+    .role-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.8rem;
+    }
+    .role-card {
+      padding: 1.6rem 1.5rem 1.8rem; border-radius: 12px;
+      border: .5px solid var(--border);
+      background: rgba(255,255,255,.18); backdrop-filter: blur(10px);
+    }
+    .role-num {
+      font-size: .58rem; font-weight: 600; letter-spacing: .14em;
+      color: var(--purple); margin-bottom: .8rem; display: block;
+    }
+    .role-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 400; color: var(--text-1); margin-bottom: .6rem;
+    }
+    .role-body { font-size: .8rem; line-height: 1.72; color: var(--text-2); }
+
+    /* ── Campaign Visuals dark wrapper ──────────────── */
+    .cv-wrapper {
+      background: #0c0818;
+      margin-top: 0;
+    }
+    .cv-section { padding-bottom: clamp(3rem,6vh,5rem); }
+
+    .cv-label {
+      display: flex; align-items: center; gap: .75rem;
+      padding: clamp(2rem,4vh,3rem) clamp(1.5rem,8vw,7rem) clamp(1.5rem,3vh,2.5rem);
+      font-size: .58rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      border-top: .5px solid rgba(255,255,255,.08);
+    }
+    .cv-label::before {
+      content: ''; display: block;
+      width: 22px; height: .5px; background: rgba(255,255,255,.25); flex-shrink: 0;
+    }
+
+    /* ── Posts Showcase — split layout ──────────────── */
+    .posts-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem,7vw,6rem);
+      padding: 0 clamp(1.5rem,8vw,7rem);
+      align-items: center;
+    }
+    .cv-eyebrow {
+      display: block; font-size: .58rem; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.35); margin-bottom: 1rem;
+    }
+    .cv-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 300;
+      color: rgba(255,255,255,.92); line-height: 1.2; margin-bottom: 1.2rem;
+    }
+    .cv-body {
+      font-size: .82rem; line-height: 1.78; color: rgba(255,255,255,.52);
+      margin-bottom: 1.5rem;
+    }
+    .cv-platform-label {
+      font-size: .58rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.28); margin-bottom: .6rem;
+    }
+    .cv-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.1rem; }
+    .cv-chip {
+      font-size: .6rem; font-weight: 500; letter-spacing: .06em;
+      padding: .3rem .75rem; border-radius: 100px;
+      border: .5px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.5);
+      background: rgba(255,255,255,.05);
+    }
+    .cv-chip-platform {
+      border-color: rgba(167,139,250,.35); color: rgba(167,139,250,.8);
+      background: rgba(124,58,237,.1);
+    }
+
+    /* Phone mockup */
+    .posts-phone {
+      display: flex; flex-direction: column; align-items: center; gap: 1.4rem;
+    }
+    .phone-frame {
+      width: clamp(200px,22vw,260px);
+      background: #0d0a1a;
+      border-radius: 44px;
+      border: 1.5px solid rgba(255,255,255,.12);
+      padding: 14px 12px 20px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.04),
+        0 40px 100px rgba(0,0,0,.7),
+        0 0 0 .5px rgba(255,255,255,.06);
+    }
+    .phone-notch {
+      width: 66px; height: 8px;
+      background: rgba(255,255,255,.14);
+      border-radius: 4px; margin: 0 auto 12px;
+    }
+    .phone-screen {
+      border-radius: 30px; overflow: hidden;
+      background: #111; aspect-ratio: 9/16; position: relative;
+    }
+    .phone-slide {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; transition: opacity 380ms ease;
+    }
+    .phone-slide.active { opacity: 1; }
+    .phone-nav {
+      display: flex; align-items: center; gap: .9rem;
+    }
+    .ph-btn {
+      font-size: .6rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      background: rgba(255,255,255,.06);
+      border: .5px solid rgba(255,255,255,.12);
+      padding: .38rem .85rem; border-radius: 100px;
+      cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
+    }
+    .ph-btn:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); }
+    .ph-counter {
+      font-size: .58rem; color: rgba(255,255,255,.25); letter-spacing: .12em; min-width: 32px; text-align: center;
+    }
+
+    /* ── Graphic Design Assets ───────────────────────── */
+    .design-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr 1fr;
+      grid-template-rows: 320px 260px;
+      gap: 4px;
+      padding: 0 clamp(1.5rem,8vw,7rem);
+    }
+    .design-card {
+      position: relative; overflow: hidden;
+      border-radius: 4px;
+    }
+    .design-card img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      transition: transform 600ms cubic-bezier(.76,0,.24,1);
+    }
+    .design-card:hover img { transform: scale(1.04); }
+    .design-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.8rem 1.1rem .9rem;
+      background: linear-gradient(to top, rgba(10,5,25,.85) 0%, transparent 100%);
+      display: flex; flex-direction: column; gap: .25rem;
+    }
+    .design-type {
+      font-size: .6rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.9);
+    }
+    .design-note { font-size: .58rem; color: rgba(255,255,255,.45); }
+
+    /* Hero poster: col 1, spans rows 1-2 */
+    .design-card:nth-child(1) { grid-column: 1; grid-row: 1/3; }
+    /* Web banner: col 2-3, row 1 */
+    .design-card:nth-child(2) { grid-column: 2/4; grid-row: 1; }
+    /* Fundraising: col 2, row 2 */
+    .design-card:nth-child(3) { grid-column: 2; grid-row: 2; }
+    /* LRB post: col 3, row 2 */
+    .design-card:nth-child(4) { grid-column: 3; grid-row: 2; }
+
+    /* ── Show Run Photos — asymmetric editorial ───────── */
+    .showrun-intro {
+      padding: 0 clamp(1.5rem,8vw,7rem) 1.8rem;
+      font-size: .8rem; line-height: 1.75; color: rgba(255,255,255,.42);
+      max-width: 620px;
+    }
+    .showrun-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1fr;
+      grid-template-rows: 24vw 18vw 20vw 18vw;
+      gap: 3px;
+      padding: 0 clamp(1.5rem,8vw,7rem);
+    }
+    .sr-item { overflow: hidden; border-radius: 2px; }
+    .sr-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 600ms cubic-bezier(.76,0,.24,1);
+    }
+    .sr-item:hover img { transform: scale(1.03); }
+
+    /* Placements */
+    .showrun-grid > .sr-item:nth-child(1) { grid-column: 1/3; grid-row: 1; }   /* showrun1 landscape wide */
+    .showrun-grid > .sr-item:nth-child(2) { grid-column: 3;   grid-row: 1/3; } /* showrun2 portrait tall */
+    .showrun-grid > .sr-item:nth-child(3) { grid-column: 1;   grid-row: 2; }   /* DSC03917 landscape */
+    .showrun-grid > .sr-item:nth-child(4) { grid-column: 2;   grid-row: 2; }   /* DSC04032 portrait */
+    .showrun-grid > .sr-item:nth-child(5) { grid-column: 1;   grid-row: 3; }   /* showrun3 portrait */
+    .showrun-grid > .sr-item:nth-child(6) { grid-column: 2/4; grid-row: 3; }   /* showrun4 landscape wide */
+    .showrun-grid > .sr-item:nth-child(7) { grid-column: 1/4; grid-row: 4; }   /* UnMute_1.9.1 full width */
+
+    .cv-credit {
+      padding: 1.1rem clamp(1.5rem,8vw,7rem) 0;
+      font-size: .58rem; letter-spacing: .1em; color: rgba(255,255,255,.2);
+      text-transform: uppercase;
+    }
+
+    /* ── Next Project bar ────────────────────────────── */
+    .next-project {
+      background: #0c0818;
+      border-top: .5px solid rgba(255,255,255,.07);
+      padding: 1.8rem clamp(1.5rem,8vw,7rem);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .next-label {
+      font-size: .58rem; font-weight: 600; letter-spacing: .16em;
+      text-transform: uppercase; color: rgba(255,255,255,.28);
+    }
+    .next-btn {
+      display: flex; align-items: center; gap: .7rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 300; color: rgba(255,255,255,.7);
+      text-decoration: none; transition: all .3s;
+    }
+    .next-btn:hover { color: #fff; gap: 1.1rem; }
+    .next-arr {
+      font-size: 1rem; color: rgba(255,255,255,.35);
+      transition: color .3s;
+    }
+    .next-btn:hover .next-arr { color: rgba(255,255,255,.7); }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .metric-card { border-right: none; border-bottom: .5px solid var(--border); }
+      .metric-card:nth-child(odd) { border-right: .5px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+      .posts-split { grid-template-columns: 1fr; gap: 3rem; }
+      .posts-phone { order: -1; }
+      .story-grid { grid-template-columns: 1fr; }
+      .role-grid { grid-template-columns: 1fr; }
+      .design-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+      }
+      .design-card:nth-child(1) { grid-column: 1/3; grid-row: 1; aspect-ratio: 16/9; }
+      .design-card:nth-child(2) { grid-column: 1/3; grid-row: 2; aspect-ratio: 16/7; }
+      .design-card:nth-child(3) { grid-column: 1; grid-row: 3; aspect-ratio: 1; }
+      .design-card:nth-child(4) { grid-column: 2; grid-row: 3; aspect-ratio: 1; }
+      .design-card img { position: static; height: 100%; }
+      .showrun-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .showrun-grid > .sr-item:nth-child(n) {
+        grid-column: auto; grid-row: auto; aspect-ratio: 4/3;
+      }
+      .showrun-grid > .sr-item:nth-child(2n) { aspect-ratio: 3/4; }
+    }
+    @media (max-width: 480px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .metric-card { border-right: none; }
+    }
+  </style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="strip-white" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m1" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 0 3"/>
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m2" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 4 4 0 -0.3"/>
+      <feComposite in="SourceGraphic" in2="m1" operator="in" result="s1"/>
+      <feComposite in="s1" in2="m2" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="aurora">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">SJ</a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="marketing.html" class="active">Marketing</a></li>
+    <li><a href="photography.html">Photography</a></li>
+    <li><a href="art.html">Art & Project</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-ham" id="ham" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="marketing.html">Marketing</a>
+  <span class="breadcrumb-sep">/</span>
+  <span>Limbus Work · UnMute</span>
+</div>
+
+<!-- ① HERO ───────────────────────────────────────────── -->
+<section class="case-hero">
+  <img class="case-hero-bg" src="assets/Marketing/limbus-work/hero-image.JPG" alt="UnMute — Limbus Work Collective at Tarragon Theatre">
+  <div class="case-hero-ov"></div>
+  <div class="case-hero-content">
+    <div class="case-badges">
+      <span class="case-badge">0 → 1 Brand Building</span>
+      <span class="case-badge">Instagram · Facebook · The RedNote</span>
+      <span class="case-badge">Feb – Jul 2024</span>
+    </div>
+    <h1 class="case-title">UnMute Campaign</h1>
+    <p class="case-desc">Full-cycle brand strategy for Limbus Work Collective — a brand-new Asian-led theatre company with zero digital presence. Built the entire audience infrastructure from scratch across three platforms and drove ticket sales for seven Toronto Fringe performances.</p>
+  </div>
+</section>
+
+<!-- ② RESULTS ────────────────────────────────────────── -->
+<section class="metrics-section fi">
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-val">40%</div>
+      <div class="metric-lbl">Campaign efficiency boost</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">+10.5%</div>
+      <div class="metric-lbl">CTR month-over-month</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">+15%</div>
+      <div class="metric-lbl">Community engagement</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val">+20%</div>
+      <div class="metric-lbl">Follower interactions</div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ THE STORY ──────────────────────────────────────── -->
+<section class="section fi" style="transition-delay:.06s">
+  <span class="eyebrow">The Story</span>
+  <div class="story-grid">
+    <div class="story-card">
+      <h3 class="story-head">Challenge</h3>
+      <p class="story-text">Limbus Work Collective had no brand, no followers, and no content history — a blank slate entering a competitive Toronto arts scene. The goal was to establish identity, grow a real community, and convert that community into ticket buyers, all within five months.</p>
+    </div>
+    <div class="story-card">
+      <h3 class="story-head">Strategy</h3>
+      <p class="story-text">Built the brand architecture first — visual identity, tone, bilingual voice — then launched a phased content rollout: awareness → community → conversion. Deployed simultaneously across Instagram, Facebook, and Little Red Book to reach both English and Chinese-speaking audiences, with weekly A/B testing to compound efficiency.</p>
+    </div>
+    <div class="story-card">
+      <h3 class="story-head">Outcome</h3>
+      <p class="story-text">40% higher campaign efficiency over initial benchmarks. Month-over-month CTR and engagement growth through the full run, proving that a zero-budget brand built on strategy and content quality can generate real audience loyalty before a single ticket goes on sale.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ④ MY ROLE ────────────────────────────────────────── -->
+<section class="section fi" style="transition-delay:.1s">
+  <span class="eyebrow">My Role</span>
+  <h2 class="sec-title">Responsibilities</h2>
+  <div class="role-grid">
+    <div class="role-card">
+      <span class="role-num">01</span>
+      <h4 class="role-head">Digital Marketing Strategy</h4>
+      <p class="role-body">Developed the full campaign roadmap — phased content calendar, platform selection, budget allocation, and A/B testing framework across five months of pre-production and show run.</p>
+    </div>
+    <div class="role-card">
+      <span class="role-num">02</span>
+      <h4 class="role-head">Content Production</h4>
+      <p class="role-body">Created all bilingual (EN/ZH) social assets including campaign posters, pre-heat teasers, cast introductions, and fundraising graphics for Instagram, Facebook, and Little Red Book.</p>
+    </div>
+    <div class="role-card">
+      <span class="role-num">03</span>
+      <h4 class="role-head">Analytics & Optimization</h4>
+      <p class="role-body">Monitored CTR, reach, and engagement weekly — reallocating spend toward top-performing creatives to drive month-over-month efficiency gains and sustain ticket sales momentum.</p>
+    </div>
+    <div class="role-card">
+      <span class="role-num">04</span>
+      <h4 class="role-head">Cross-Team Collaboration</h4>
+      <p class="role-body">Partnered with the artistic team, director, and cast to source production content, coordinate show-run photography, and align messaging with the production's themes and tone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ ⑥ ⑦ CAMPAIGN VISUALS ──────────────────────────── -->
+<div class="cv-wrapper">
+
+  <!-- Section 1 · Social Media Posts Showcase -->
+  <div class="cv-section">
+    <div class="cv-label">Section 1 · Social Media Posts Showcase</div>
+    <div class="posts-split">
+
+      <!-- Left: strategy text -->
+      <div class="posts-text">
+        <span class="cv-eyebrow">Content Strategy</span>
+        <h2 class="cv-heading">Building a brand voice from zero across three platforms</h2>
+        <p class="cv-body">With no existing audience or brand equity, every post served a dual purpose: building identity and growing reach simultaneously. The strategy moved in phases — brand awareness and community-building first, then cast reveals and production teasers, finally conversion-focused ticket sales content timed to box office milestones.</p>
+        <div class="cv-chips" style="margin-bottom:.8rem">
+          <span class="cv-chip">Content calendar</span>
+          <span class="cv-chip">A/B testing</span>
+          <span class="cv-chip">Pre-heat promotions</span>
+          <span class="cv-chip">Paid media</span>
+        </div>
+        <p class="cv-platform-label">Audience monitoring</p>
+        <div class="cv-chips">
+          <span class="cv-chip cv-chip-platform">Instagram</span>
+          <span class="cv-chip cv-chip-platform">Facebook</span>
+          <span class="cv-chip cv-chip-platform">Little Red Book</span>
+        </div>
+      </div>
+
+      <!-- Right: phone mockup -->
+      <div class="posts-phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img class="phone-slide active" src="assets/Marketing/limbus-work/1.png" alt="Little Red Book post">
+            <img class="phone-slide" src="assets/Marketing/limbus-work/Fundraising%20Unmute-2.png" alt="Fundraising post">
+            <img class="phone-slide" src="assets/Marketing/limbus-work/webpage-poster.png" alt="Campaign banner">
+          </div>
+        </div>
+        <div class="phone-nav">
+          <button class="ph-btn" id="phPrev">← Prev</button>
+          <span class="ph-counter" id="phCounter">1 / 3</span>
+          <button class="ph-btn" id="phNext">Next →</button>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /Section 1 -->
+
+  <!-- Section 2 · Graphic Design Assets -->
+  <div class="cv-section">
+    <div class="cv-label">Section 2 · Graphic Design Assets</div>
+    <div class="design-grid">
+
+      <div class="design-card">
+        <img src="assets/Marketing/limbus-work/Unmute-poster.png" alt="UnMute main campaign poster">
+        <div class="design-info">
+          <span class="design-type">Main campaign poster</span>
+          <span class="design-note">Event promotion · Print + Digital</span>
+        </div>
+      </div>
+
+      <div class="design-card">
+        <img src="assets/Marketing/limbus-work/webpage-poster.png" alt="Web social banner">
+        <div class="design-info">
+          <span class="design-type">Web / Social banner</span>
+          <span class="design-note">Toronto Fringe · Digital · Wide format</span>
+        </div>
+      </div>
+
+      <div class="design-card">
+        <img src="assets/Marketing/limbus-work/Fundraising%20Unmute-2.png" alt="Fundraising graphic">
+        <div class="design-info">
+          <span class="design-type">Fundraising post</span>
+          <span class="design-note">Social · GoFundMe campaign</span>
+        </div>
+      </div>
+
+      <div class="design-card">
+        <img src="assets/Marketing/limbus-work/1.png" alt="Little Red Book post">
+        <div class="design-info">
+          <span class="design-type">Little Red Book post</span>
+          <span class="design-note">Social · Bilingual EN / ZH</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /Section 2 -->
+
+  <!-- Section 3 · Show Run Photos -->
+  <div class="cv-section">
+    <div class="cv-label">Section 3 · Show Run Photos</div>
+    <p class="showrun-intro">Live production photography captured during the seven-performance run at Tarragon Theatre Mainspace, July 5–14, 2024 — repurposed as editorial marketing material across all social channels.</p>
+    <div class="showrun-grid">
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/showrun1.jpg" alt="UnMute performance"></div>
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/showrun2.jpg" alt="UnMute performance"></div>
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/DSC03917.jpg" alt="UnMute performance"></div>
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/DSC04032.jpg" alt="UnMute performance"></div>
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/showrun3.jpg" alt="UnMute performance"></div>
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/showrun4.jpg" alt="UnMute curtain call"></div>
+      <div class="sr-item"><img src="assets/Marketing/limbus-work/UnMute_1.9.1.png" alt="UnMute company"></div>
+    </div>
+    <p class="cv-credit">Photography · Limbus Work Collective · Toronto Fringe 2024</p>
+  </div><!-- /Section 3 -->
+
+</div><!-- /.cv-wrapper -->
+
+<!-- ⑧ NEXT PROJECT ───────────────────────────────────── -->
+<div class="next-project">
+  <span class="next-label">Next Project</span>
+  <a href="marketing.html" class="next-btn">
+    <span>Back to Marketing</span>
+    <span class="next-arr">→</span>
+  </a>
+</div>
+
+<footer>
+  <span>© 2025 Sunlei Jin</span>
+  <span>Digital Artist · Photographer · Creative Strategist</span>
+</footer>
+
+<a href="marketing.html" class="back-btn" aria-label="Back to Marketing">
+  <span class="back-arr">←</span>
+  <span>Marketing</span>
+</a>
+
+<script>
+  window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (!href.startsWith('#') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('http')) {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => location.href = href, 340);
+      });
+    }
+  });
+
+  document.getElementById('ham').addEventListener('click', () => {
+    document.getElementById('navlinks').classList.toggle('open');
+  });
+
+  // Phone mockup slideshow
+  const slides  = Array.from(document.querySelectorAll('.phone-slide'));
+  const counter = document.getElementById('phCounter');
+  let cur = 0;
+
+  function goSlide(idx) {
+    slides[cur].classList.remove('active');
+    cur = (idx + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    counter.textContent = (cur + 1) + ' / ' + slides.length;
+  }
+
+  document.getElementById('phPrev').addEventListener('click', () => goSlide(cur - 1));
+  document.getElementById('phNext').addEventListener('click', () => goSlide(cur + 1));
+
+  // Fade-in on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photography — Sunlei Jin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* ── Cross-document view transition ── */
+    @view-transition { navigation: auto; }
+    ::view-transition-group(series-hero) {
+      animation-duration: 600ms;
+      animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    /* ── Hub asymmetric grid ── */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding: 0 clamp(1.5rem, 8vw, 7rem) clamp(3rem, 6vh, 5rem);
+      align-items: start;
+    }
+    .hub-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Alternating wide-narrow placement */
+    .hub-card:nth-child(1) { grid-column: 1 / 3; }
+    .hub-card:nth-child(2) { grid-column: 3 / 4; }
+    .hub-card:nth-child(3) { grid-column: 1 / 2; }
+    .hub-card:nth-child(4) { grid-column: 2 / 4; }
+    .hub-card:nth-child(5) { grid-column: 1 / 3; }
+    .hub-card:nth-child(6) { grid-column: 3 / 4; }
+    .hub-card:nth-child(7) { grid-column: 1 / 2; }
+    .hub-card:nth-child(8) { grid-column: 2 / 4; }
+
+    .hub-img-wrap {
+      overflow: hidden;
+      border-radius: 2px;
+      background: rgba(200, 190, 220, .12);
+    }
+
+    /* Wide cards — landscape ratio */
+    .hub-card:nth-child(1) .hub-img-wrap,
+    .hub-card:nth-child(4) .hub-img-wrap,
+    .hub-card:nth-child(5) .hub-img-wrap,
+    .hub-card:nth-child(8) .hub-img-wrap { aspect-ratio: 3/2; }
+
+    /* Narrow cards — portrait ratio */
+    .hub-card:nth-child(2) .hub-img-wrap,
+    .hub-card:nth-child(3) .hub-img-wrap,
+    .hub-card:nth-child(6) .hub-img-wrap,
+    .hub-card:nth-child(7) .hub-img-wrap { aspect-ratio: 3/4; }
+
+    .hub-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 600ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .hub-card:hover .hub-cover { transform: scale(1.04); }
+
+    .hub-info {
+      padding: .5rem 0 .25rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+    }
+    .hub-series-cat {
+      font-size: .55rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .hub-series-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-1);
+    }
+
+    @media (max-width: 768px) {
+      .hub-grid { grid-template-columns: 1fr 1fr; gap: .75rem; }
+      .hub-card:nth-child(n) { grid-column: auto; }
+      .hub-card:nth-child(n) .hub-img-wrap { aspect-ratio: 3/4; }
+    }
+    @media (max-width: 480px) {
+      .hub-grid { grid-template-columns: 1fr; }
+      .hub-card:nth-child(n) .hub-img-wrap { aspect-ratio: 4/3; }
+    }
+  </style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="strip-white" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m1" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 0 3"/>
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m2" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 4 4 0 -0.3"/>
+      <feComposite in="SourceGraphic" in2="m1" operator="in" result="s1"/>
+      <feComposite in="s1" in2="m2" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="aurora">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">SJ</a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="marketing.html">Marketing</a></li>
+    <li><a href="photography.html" class="active">Photography</a></li>
+    <li><a href="art.html">Art & Project</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-ham" id="ham" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+    </svg>
+  </button>
+</nav>
+
+<header class="page-hd">
+  <span class="eyebrow">Selected Works</span>
+  <div class="rule"></div>
+  <h1 class="page-title">Photography</h1>
+</header>
+
+<div class="hub-grid">
+
+  <!-- 1 · Aquarism — wide -->
+  <a href="photo-series.html?series=aquarism" class="hub-card fi" data-series="aquarism">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/portrait%20/aquarism%20/DSC05015-Edit-2.jpg" alt="Aquarism">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Portrait</span>
+      <h3 class="hub-series-title">Aquarism</h3>
+    </div>
+  </a>
+
+  <!-- 2 · Sakura — narrow -->
+  <a href="photo-series.html?series=sakura" class="hub-card fi" data-series="sakura" style="transition-delay:.07s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/portrait%20/sakura/48187.JPG" alt="Sakura">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Portrait</span>
+      <h3 class="hub-series-title">Sakura</h3>
+    </div>
+  </a>
+
+  <!-- 3 · Home — narrow -->
+  <a href="photo-series.html?series=home" class="hub-card fi" data-series="home" style="transition-delay:.12s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/portrait%20/home/DSC04902.jpg" alt="Home">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Portrait</span>
+      <h3 class="hub-series-title">Home</h3>
+    </div>
+  </a>
+
+  <!-- 4 · Park — wide -->
+  <a href="photo-series.html?series=park" class="hub-card fi" data-series="park" style="transition-delay:.17s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/portrait%20/park%20/DSC05176.jpg" alt="Park">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Portrait</span>
+      <h3 class="hub-series-title">Park</h3>
+    </div>
+  </a>
+
+  <!-- 5 · Jump — wide -->
+  <a href="photo-series.html?series=jump" class="hub-card fi" data-series="jump" style="transition-delay:.22s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/portrait%20/jump/DSC00511.jpg" alt="Jump">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Portrait</span>
+      <h3 class="hub-series-title">Jump</h3>
+    </div>
+  </a>
+
+  <!-- 6 · Snow — narrow -->
+  <a href="photo-series.html?series=snow" class="hub-card fi" data-series="snow" style="transition-delay:.27s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/portrait%20/snow/DSC00656.jpg" alt="Snow">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Portrait</span>
+      <h3 class="hub-series-title">Snow</h3>
+    </div>
+  </a>
+
+  <!-- 7 · Los Angeles — narrow -->
+  <a href="photo-series.html?series=losangeles" class="hub-card fi" data-series="losangeles" style="transition-delay:.32s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/landscape/losangelas/DSC01878.JPG" alt="Los Angeles">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Landscape</span>
+      <h3 class="hub-series-title">Los Angeles</h3>
+    </div>
+  </a>
+
+  <!-- 8 · Manhattan Beach — wide -->
+  <a href="photo-series.html?series=manhattan" class="hub-card fi" data-series="manhattan" style="transition-delay:.37s">
+    <div class="hub-img-wrap">
+      <img class="hub-cover" src="assets/photography%20/landscape/manhattan%20beach%20/DSC02072.jpg" alt="Manhattan Beach">
+    </div>
+    <div class="hub-info">
+      <span class="hub-series-cat">Landscape</span>
+      <h3 class="hub-series-title">Manhattan Beach</h3>
+    </div>
+  </a>
+
+</div><!-- /.hub-grid -->
+
+<footer>
+  <span>© 2025 Sunlei Jin</span>
+  <span>Digital Artist · Photographer · Creative Strategist</span>
+</footer>
+
+<a href="index.html" class="back-btn" aria-label="Back to home">
+  <span class="back-arr">←</span>
+  <span>Home</span>
+</a>
+
+<script>
+  window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+  // Standard page transitions for non-hub links
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (
+      !href.startsWith('#') && !href.startsWith('mailto') &&
+      !href.startsWith('tel') && !href.startsWith('http') &&
+      !a.classList.contains('hub-card')
+    ) {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => location.href = href, 340);
+      });
+    }
+  });
+
+  document.getElementById('ham').addEventListener('click', () => {
+    document.getElementById('navlinks').classList.toggle('open');
+  });
+
+  // Hub card click — set view-transition-name then navigate immediately
+  // The cross-document @view-transition handles the morph animation
+  document.querySelectorAll('.hub-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      // Clear any previously set name (only one element may have a given name at once)
+      document.querySelectorAll('.hub-cover').forEach(img => {
+        img.style.viewTransitionName = '';
+      });
+      const img = card.querySelector('.hub-cover');
+      if (img) img.style.viewTransitionName = 'series-hero';
+      location.href = card.getAttribute('href');
+    });
+  });
+
+  // Fade-in on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

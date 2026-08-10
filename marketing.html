@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketing — Sunlei Jin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="strip-white" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m1" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 -1 -1 0 3"/>
+      <feColorMatrix type="matrix" in="SourceGraphic" result="m2" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 4 4 0 -0.3"/>
+      <feComposite in="SourceGraphic" in2="m1" operator="in" result="s1"/>
+      <feComposite in="s1" in2="m2" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="aurora">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">SJ</a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="marketing.html" class="active">Marketing</a></li>
+    <li><a href="photography.html">Photography</a></li>
+    <li><a href="art.html">Art & Project</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-ham" id="ham" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+    </svg>
+  </button>
+</nav>
+
+<header class="page-hd">
+  <span class="eyebrow">Selected Works</span>
+  <div class="rule"></div>
+  <h1 class="page-title">Marketing &<br>Social Media</h1>
+</header>
+
+<section class="section">
+  <div class="cards">
+    <a href="marketing-limbus.html" class="card fi" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;">
+      <div class="card-thumb" style="background:url('assets/Marketing/limbus-work/hero-image.JPG') center/cover no-repeat">
+        <span class="card-thumb-lbl">Limbus Work</span>
+      </div>
+      <div class="card-body">
+        <p class="card-cat">Brand Building · 0 → 1</p>
+        <h3 class="card-title">UnMute Campaign</h3>
+        <p class="card-desc">Full-cycle brand strategy for a new Asian-led theatre collective — built bilingual audience across three platforms from zero.</p>
+      </div>
+    </a>
+    <a href="marketing-fantuan.html" class="card fi" style="transition-delay:.1s;text-decoration:none;color:inherit;display:flex;flex-direction:column;">
+      <div class="card-thumb" style="background:url('assets/Marketing/fantuan-delivery/Section%203%20%E2%80%94%20event%20campaign/campaign%20image%201.JPG') center/cover no-repeat">
+        <span class="card-thumb-lbl">Social</span>
+      </div>
+      <div class="card-body">
+        <p class="card-cat">Social Media Marketing</p>
+        <h3 class="card-title">Fantuan Delivery</h3>
+        <p class="card-desc">Content systems designed for engagement — from concept to scroll-stopping visuals.</p>
+      </div>
+    </a>
+    <div class="card fi" style="transition-delay:.2s">
+      <div class="card-thumb" style="background:linear-gradient(135deg,#ea580c,#f97316,#fb923c)">
+        <span class="card-thumb-lbl">Strategy</span>
+      </div>
+      <div class="card-body">
+        <p class="card-cat">Strategy</p>
+        <h3 class="card-title">Strategy Deck</h3>
+        <p class="card-desc">Research-driven strategy presentation with audience insights and channel planning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Sunlei Jin</span>
+  <span>Digital Artist · Photographer · Creative Strategist</span>
+</footer>
+
+<a href="index.html" class="back-btn" aria-label="Back to home">
+  <span class="back-arr">←</span>
+  <span>Home</span>
+</a>
+
+<script>
+  window.addEventListener('load', () => document.body.classList.add('loaded'));
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (!href.startsWith('#') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('http')) {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => location.href = href, 340);
+      });
+    }
+  });
+  document.getElementById('ham').addEventListener('click', () => {
+    document.getElementById('navlinks').classList.toggle('open');
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
